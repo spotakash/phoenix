@@ -220,7 +220,8 @@ resource "azurerm_key_vault_secret" "tfm_name" {
 resource "azurerm_application_insights" "aksainsights" {
   name                = "${var.dns_prefix}-${random_integer.random_int.result}-ai"
   application_type    = "Node.JS"
-  location            = "West Europe"
+  # Changed location from West Eruope to East US
+  location            = "eastus"
   resource_group_name = azurerm_resource_group.aksrg.name
 
   tags = {
@@ -434,7 +435,7 @@ resource "azurerm_kubernetes_cluster" "akstf" {
   default_node_pool {
     name               = "default"
     node_count         = 2
-    vm_size            = "Standard_DS2_v2" #"Standard_F4s" # Standard_DS2_v2
+    vm_size            = "Standard_B2s" #"Standard_F4s" # Standard_DS2_v2 changes to B2s
     os_disk_size_gb    = 120
     max_pods           = 30
     vnet_subnet_id     = azurerm_subnet.aksnet.id
@@ -519,7 +520,7 @@ provider "kubernetes" {
 # https://www.terraform.io/docs/providers/helm/index.html
 provider "helm" {
   kubernetes {
-    load_config_file = false
+    # load_config_file = false
     host                   = azurerm_kubernetes_cluster.akstf.kube_config.0.host
     client_certificate     = base64decode(azurerm_kubernetes_cluster.akstf.kube_config.0.client_certificate)
     client_key             = base64decode(azurerm_kubernetes_cluster.akstf.kube_config.0.client_key)
@@ -608,6 +609,7 @@ output "PUBLIC_IP_STAGE" {
 
 output "instrumentation_key" {
   value = azurerm_application_insights.aksainsights.instrumentation_key
+  sensitive = "true"
 }
 
 output "AZURE_CONTAINER_REGISTRY_NAME" {

@@ -44,13 +44,15 @@ variable "azdo_service_principal_objectid" {
 }
 
 # Name your environment
+# Changed default variable from dennis to sgakbg
 variable "environment" {
-    default = "dennis"
+    default = "sgakbg"
 }
 
 # Kubernetes Version
+# Changed Version from 1.18.14 to 1.22.6
 variable "kubernetes_version" {
-    default = "1.18.14"
+    default = "1.22.6"
 }
 
 # Public key
@@ -69,6 +71,7 @@ variable "resource_group_name" {
 }
 
 # Deployment location
+# Changed Default location from WestEurope to eastus
 variable "location" {
-    default = "WestEurope"
+    default = "eastus"
 }

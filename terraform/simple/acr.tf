@@ -3,10 +3,11 @@
 
 provider "azurerm" {
     subscription_id = var.subscription_id
-    #client_id       = var.terraform_serviceprincipal_id
-    #client_secret   = var.terraform_serviceprincipal_secret
+    client_id       = var.terraform_serviceprincipal_id
+    client_secret   = var.terraform_serviceprincipal_secret
     tenant_id       = var.tenant_id
     features {}
+    skip_provider_registration = true
 }
 
 # random value
